@@ -1,7 +1,7 @@
 [package]
 name = "eml2md"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "Convert EML files to Markdown"
 license = "Apache-2.0"
 repository = "https://github.com/hydai/eml2md"
