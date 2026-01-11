@@ -1,0 +1,14 @@
+From: Test Sender <sender@example.com>
+To: Recipient One <recipient1@example.com>, Recipient Two <recipient2@example.com>
+Cc: CC User <cc@example.com>
+Subject: Test Email Subject
+Date: Mon, 1 Jan 2024 12:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+
+Hello, this is a test email message.
+
+This email is used to test the eml2md converter.
+
+Best regards,
+Test Sender

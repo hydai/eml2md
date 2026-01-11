@@ -1,0 +1,19 @@
+[package]
+name = "eml2md"
+version = "0.1.0"
+edition = "2021"
+description = "Convert EML files to Markdown"
+license = "Apache-2.0"
+repository = "https://github.com/hydai/eml2md"
+authors = ["hydai"]
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+mail-parser = "0.9"
+chrono = "0.4"
+base64 = "0.22"
+thiserror = "2"
+anyhow = "1"
+
+[dev-dependencies]
+pretty_assertions = "1"
