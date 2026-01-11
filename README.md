@@ -13,7 +13,7 @@ A fast, lightweight command-line tool to convert EML (email) files to Markdown f
 
 ### From Source
 
-Requires [Rust](https://www.rust-lang.org/tools/install) 1.56+ (2021 edition).
+Requires [Rust](https://www.rust-lang.org/tools/install) (2024 edition).
 
 ```bash
 git clone https://github.com/hydai/eml2md.git
@@ -69,7 +69,7 @@ This is the email body content...
 
 ### Prerequisites
 
-- Rust 1.56+ (2021 edition)
+- Rust (2024 edition)
 - Cargo
 
 ### Building
