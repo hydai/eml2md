@@ -7,5 +7,5 @@ pub mod content_type;
 pub mod eml;
 pub mod formatter;
 
-pub use eml::{parse_eml, Email};
-pub use formatter::{create_formatter, Formatter};
+pub use eml::{Email, parse_eml};
+pub use formatter::{Formatter, create_formatter};

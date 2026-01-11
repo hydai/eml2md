@@ -59,8 +59,8 @@ pub struct Email {
 
 /// Parse an EML file into an Email structure
 pub fn parse_eml(path: &Path) -> Result<Email> {
-    let content = std::fs::read(path)
-        .with_context(|| format!("Failed to read file: {}", path.display()))?;
+    let content =
+        std::fs::read(path).with_context(|| format!("Failed to read file: {}", path.display()))?;
 
     parse_eml_bytes(&content)
 }
@@ -75,10 +75,12 @@ pub fn parse_eml_bytes(content: &[u8]) -> Result<Email> {
     let from = message
         .from()
         .and_then(|addrs| addrs.first())
-        .map(|addr| User::new(
-            addr.name().unwrap_or_default(),
-            addr.address().unwrap_or_default(),
-        ))
+        .map(|addr| {
+            User::new(
+                addr.name().unwrap_or_default(),
+                addr.address().unwrap_or_default(),
+            )
+        })
         .unwrap_or_else(|| User::new("", ""));
 
     // Parse To header
@@ -87,10 +89,12 @@ pub fn parse_eml_bytes(content: &[u8]) -> Result<Email> {
         .map(|addrs| {
             addrs
                 .iter()
-                .map(|addr| User::new(
-                    addr.name().unwrap_or_default(),
-                    addr.address().unwrap_or_default(),
-                ))
+                .map(|addr| {
+                    User::new(
+                        addr.name().unwrap_or_default(),
+                        addr.address().unwrap_or_default(),
+                    )
+                })
                 .collect()
         })
         .unwrap_or_default();
@@ -101,10 +105,12 @@ pub fn parse_eml_bytes(content: &[u8]) -> Result<Email> {
         .map(|addrs| {
             addrs
                 .iter()
-                .map(|addr| User::new(
-                    addr.name().unwrap_or_default(),
-                    addr.address().unwrap_or_default(),
-                ))
+                .map(|addr| {
+                    User::new(
+                        addr.name().unwrap_or_default(),
+                        addr.address().unwrap_or_default(),
+                    )
+                })
                 .collect()
         })
         .unwrap_or_default();
@@ -113,10 +119,10 @@ pub fn parse_eml_bytes(content: &[u8]) -> Result<Email> {
     let subject = message.subject().unwrap_or_default().to_string();
 
     // Parse date
-    let date = message.date().map(|dt| {
+    let date = message.date().and_then(|dt| {
         DateTime::from_timestamp(dt.to_timestamp(), 0)
             .map(|utc| utc.with_timezone(&FixedOffset::east_opt(0).unwrap()))
-    }).flatten();
+    });
 
     let header = Header {
         from,
@@ -151,11 +157,7 @@ pub fn parse_eml_bytes(content: &[u8]) -> Result<Email> {
         let content_type = attachment
             .content_type()
             .map(|ct: &mail_parser::ContentType| {
-                let type_str = format!(
-                    "{}/{}",
-                    ct.ctype(),
-                    ct.subtype().unwrap_or_default()
-                );
+                let type_str = format!("{}/{}", ct.ctype(), ct.subtype().unwrap_or_default());
                 ContentType::parse(&type_str)
             });
 
@@ -189,7 +191,10 @@ mod tests {
         let email = parse_eml_bytes(eml).unwrap();
         assert_eq!(email.header.subject, "Test Subject");
         assert_eq!(email.header.from.email, "sender@example.com");
-        assert!(!email.body.is_empty(), "Email should have at least one body");
+        assert!(
+            !email.body.is_empty(),
+            "Email should have at least one body"
+        );
         assert!(
             email.body.iter().any(|b| b.content_type == "text/plain"),
             "Email should contain text/plain body"

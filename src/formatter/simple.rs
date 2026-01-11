@@ -1,6 +1,6 @@
 //! Simple markdown formatters
 
-use base64::{engine::general_purpose::STANDARD, Engine};
+use base64::{Engine, engine::general_purpose::STANDARD};
 
 use crate::eml::{Body, Email, Header, User};
 
@@ -30,20 +30,19 @@ impl SimpleFormatter {
         let mut result = content.to_string();
 
         for attachment in &email.attachments {
-            if let Some(ref ct) = attachment.content_type {
-                if ct.main_type == "image" {
-                    if let Some(name) = ct.parameters.get("name") {
-                        let placeholder = format!("[image: {}]", name);
-                        let base64_data = STANDARD.encode(&attachment.raw);
-                        let data_uri = format!(
-                            "![{}](data:{};base64,{})",
-                            name,
-                            ct.mime_type(),
-                            base64_data
-                        );
-                        result = result.replace(&placeholder, &data_uri);
-                    }
-                }
+            if let Some(ref ct) = attachment.content_type
+                && ct.main_type == "image"
+                && let Some(name) = ct.parameters.get("name")
+            {
+                let placeholder = format!("[image: {}]", name);
+                let base64_data = STANDARD.encode(&attachment.raw);
+                let data_uri = format!(
+                    "![{}](data:{};base64,{})",
+                    name,
+                    ct.mime_type(),
+                    base64_data
+                );
+                result = result.replace(&placeholder, &data_uri);
             }
         }
 
@@ -51,9 +50,7 @@ impl SimpleFormatter {
     }
 
     fn strip_content(content: &str) -> String {
-        content
-            .replace("\r\n\r\n", "\n")
-            .replace("\r\n", "\n")
+        content.replace("\r\n\r\n", "\n").replace("\r\n", "\n")
     }
 }
 

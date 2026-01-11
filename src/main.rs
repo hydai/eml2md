@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 use clap::Parser;
 
-use eml2md::{parse_eml, formatter::format_markdown};
+use eml2md::{formatter::format_markdown, parse_eml};
 
 /// Convert EML files to Markdown
 #[derive(Parser, Debug)]
