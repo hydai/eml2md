@@ -107,7 +107,7 @@ impl Formatter for SimpleHtmlFormatter {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::eml::{Attachment, Email, Header, User};
+    use crate::eml::{Email, Header, User};
     use chrono::{FixedOffset, TimeZone};
 
     fn create_test_email() -> Email {

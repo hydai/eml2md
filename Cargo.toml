@@ -9,7 +9,7 @@ authors = ["hydai"]
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
-mail-parser = "0.9"
+mail-parser = "0.11"
 chrono = "0.4"
 base64 = "0.22"
 thiserror = "2"
